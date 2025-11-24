@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#f8f9fa"/>
+  <g transform="translate(200, 100)">
+    <rect x="0" y="0" width="50" height="50" rx="10" fill="#e0e0e0"/>
+    <path d="M15 25 L25 35 L40 15" stroke="#2c3e50" stroke-width="3" fill="none"/>
+    <rect x="80" y="10" width="300" height="30" rx="5" fill="#2c3e50" opacity="0.1"/>
+  </g>
+  <g transform="translate(200, 200)">
+    <rect x="0" y="0" width="50" height="50" rx="10" fill="#e0e0e0"/>
+    <path d="M15 25 L25 35 L40 15" stroke="#2c3e50" stroke-width="3" fill="none"/>
+    <rect x="80" y="10" width="300" height="30" rx="5" fill="#2c3e50" opacity="0.1"/>
+  </g>
+  <g transform="translate(200, 300)">
+    <rect x="0" y="0" width="50" height="50" rx="10" fill="#e0e0e0"/>
+    <path d="M15 25 L25 35 L40 15" stroke="#2c3e50" stroke-width="3" fill="none"/>
+    <rect x="80" y="10" width="300" height="30" rx="5" fill="#2c3e50" opacity="0.1"/>
+  </g>
+  <text x="400" y="500" font-family="sans-serif" font-size="24" fill="#555" text-anchor="middle">Recommendations</text>
+</svg>

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TFGBV in the Workplace - Protection Against Harassment of Women at the Workplace Act, 2010</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-primary: #333333;
+            --text-secondary: #555555;
+            --accent-color: #e0e0e0;
+            --highlight-color: #2c3e50;
+            --transition-speed: 0.6s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f4f4;
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #presentation-container {
+            width: 100%;
+            max-width: 1600px;
+            aspect-ratio: 16/9;
+            background-color: var(--bg-color);
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        /* Fullscreen Overrides */
+        #presentation-container:fullscreen {
+            max-width: none;
+            width: 100vw;
+            height: 100vh;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        /* Slides */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-speed) ease-in-out, transform var(--transition-speed) ease-out;
+            display: flex;
+            flex-direction: row;
+            padding: 4rem;
+            transform: scale(1.02);
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+            z-index: 2;
+        }
+
+        /* Slide Layouts */
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-right: 3rem;
+            z-index: 2;
+        }
+
+        .slide-image-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .slide-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 3s ease;
+        }
+
+        .slide.active .slide-image {
+            transform: scale(1.05);
+            /* Soft zoom effect */
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--highlight-color);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--highlight-color);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+        }
+
+        p,
+        li {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease 0.4s, transform 0.8s ease 0.4s;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li::before {
+            content: "•";
+            color: var(--highlight-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        /* Active Slide Text Animation */
+        .slide.active h1,
+        .slide.active h2,
+        .slide.active p,
+        .slide.active li {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Controls */
+        .controls {
+            position: absolute;
+            bottom: 5rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+            align-items: center;
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ddd;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: var(--highlight-color);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button:hover {
+            background: var(--highlight-color);
+            color: white;
+            border-color: var(--highlight-color);
+        }
+
+        .slide-counter {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-right: 1rem;
+            font-weight: 600;
+        }
+
+        /* Accessibility */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            p,
+            li {
+                font-size: 1rem;
+            }
+
+            .slide {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="presentation-container" role="region" aria-label="Presentation Slides">
+
+        <!-- Slide 1 -->
+        <div class="slide active" id="slide-1">
+            <div class="slide-content">
+                <h1>Technology-Facilitated Gender-Based Violence (TFGBV)</h1>
+                <p>The Invisible Violence in Digital Workplaces</p>
+            </div>
+            <div class="slide-image-container">
+                <img src="assets/slide1.png" alt="Modern digital workplace concept" class="slide-image">
+            </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide" id="slide-2">
+            <div class="slide-content">
+                <h2>What is TFGBV?</h2>
+                <ul>
+                    <li>Violence using or amplified by technology in the workplace</li>
+                    <li>Targets women & girls disproportionately</li>
+                    <li>Online acts → offline workplace consequences</li>
+                </ul>
+            </div>
+            <div class="slide-image-container">
+                <img src="assets/slide2.png" alt="Abstract representation of digital violence" class="slide-image">
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide" id="slide-3">
+            <div class="slide-content">
+                <h2>Forms of TFGBV (Workplace Examples)</h2>
+                <ul>
+                    <li>Image-based sexual abuse at/through workplace channels</li>
+                    <li>Deepfake sexual content used against an employee</li>
+                    <li>Sextortion tied to employment or workplace access</li>
+                    <li>Workplace-targeted online harassment & misogyny</li>
+                    <li>Stalking / surveillance of an employee’s work activity</li>
+                    <li>Doxxing of an employee’s work contact details</li>
+                </ul>
+            </div>
+            <div class="slide-image-container">
+                <img src="assets/slide3.png" alt="Digital workplace communication tools" class="slide-image">
+            </div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide" id="slide-4">
+            <div class="slide-content">
+                <h2>How Common Is It?</h2>
+                <ul>
+                    <li>30–45% women online experience some form</li>
+                    <li>Young women most affected</li>
+                    <li>Deepfakes: majority victims women</li>
+                    <li>Massive underreporting</li>
+                </ul>
+            </div>
+            <div class="slide-image-container">
+                <img src="assets/slide4.png" alt="Data visualization of statistics" class="slide-image">
+            </div>
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="slide" id="slide-5">
+            <div class="slide-content">
+                <h2>Impact on Survivors (Workplace Focus)</h2>
+                <ul>
+                    <li>Psychological trauma affecting work performance</li>
+                    <li>Reputation damage within workplace</li>
+                    <li>Economic loss (job loss, missed work)</li>
+                    <li>Physical safety risks linked to workplace exposure</li>
+                </ul>
+            </div>
+            <div class="slide-image-container">
+                <img src="assets/slide5.png" alt="Professional woman looking stressed" class="slide-image">
+            </div>
+        </div>
+
+        <!-- Slide 6 -->
+        <div class="slide" id="slide-6">
+            <div class="slide-content">
+                <h2>Why It Happens (Workplace Drivers)</h2>
+                <ul>
+                    <li>Platform/IT weaknesses in workplace systems</li>
+                    <li>Anonymity + virality via workplace networks</li>
+                    <li>Easy access to AI tools that can target employees</li>
+                    <li>Weak workplace policies / weak enforcement of Act</li>
+                    <li>Gender norms & impunity in workplace culture</li>
+                </ul>
+            </div>
+            <div class="slide-image-container">
+                <img src="assets/slide6.svg" alt="Abstract network connections" class="slide-image">
+            </div>
+        </div>
+
+        <!-- Slide 7 -->
+        <div class="slide" id="slide-7">
+            <div class="slide-content">
+                <h2>Legal Landscape (Within the Act)</h2>
+                <ul>
+                    <li>Act defines harassment & applies to workplaces</li>
+                    <li>Organizations must form Inquiry Committees</li>
+                    <li>Complaints may go to Committee or Ombudsperson per Rules</li>
+                </ul>
+            </div>
+            <div class="slide-image-container">
+                <img src="assets/slide7.svg" alt="Legal landscape representation" class="slide-image">
+            </div>
+        </div>
+
+        <!-- Slide 8 -->
+        <div class="slide" id="slide-8">
+            <div class="slide-content">
+                <h2>What Works (Aligned With the Act)</h2>
+                <ul>
+                    <li>Survivor-centered support in workplace procedures</li>
+                    <li>Fast takedowns from workplace-managed systems</li>
+                    <li>Strong platform and employer accountability (per Act)</li>
+                    <li>Clear workplace policies consistent with the Act & Rules</li>
+                    <li>Awareness & prevention programs inside organizations</li>
+                </ul>
+            </div>
+            <div class="slide-image-container">
+                <img src="assets/slide8.svg" alt="Supportive workplace environment" class="slide-image">
+            </div>
+        </div>
+
+        <!-- Slide 9 -->
+        <div class="slide" id="slide-9">
+            <div class="slide-content">
+                <h2>Key Recommendations (Act-Compliant)</h2>
+                <ul>
+                    <li>Adopt Act-aligned definitions and policies in organizations</li>
+                    <li>Ensure Inquiry Committees meet Act/Rules requirements</li>
+                    <li>Rapid workplace response mechanisms & reporting channels</li>
+                    <li>Digital literacy & rights training for staff</li>
+                    <li>Multi-sector coordination following Act procedures</li>
+                </ul>
+            </div>
+            <div class="slide-image-container">
+                <img src="assets/slide9.svg" alt="Checklist or policy document" class="slide-image">
+            </div>
+        </div>
+
+        <!-- Slide 10 -->
+        <div class="slide" id="slide-10">
+            <div class="slide-content">
+                <h2>Closing Message</h2>
+                <p>TFGBV in workplaces is real, preventable — act within the Act.</p>
+            </div>
+            <div class="slide-image-container">
+                <img src="assets/slide10.svg" alt="Team collaboration" class="slide-image">
+            </div>
+        </div>
+
+        <!-- Slide 11 -->
+        <div class="slide" id="slide-11">
+            <div class="slide-content">
+                <h2>The Gendered Nature (Workplace Lens)</h2>
+                <ul>
+                    <li>Women & girls targeted disproportionately at work</li>
+                    <li>Abuse reinforces workplace power imbalance</li>
+                </ul>
+            </div>
+            <div class="slide-image-container">
+                <img src="assets/slide11.svg" alt="Gender balance visual" class="slide-image">
+            </div>
+        </div>
+
+        <!-- Slide 12 -->
+        <div class="slide" id="slide-12">
+            <div class="slide-content">
+                <h2>Technology’s Role (Workplace Systems)</h2>
+                <ul>
+                    <li>AI-enabled abuse can target employees faster</li>
+                    <li>Harder to detect & remove from workplace platforms</li>
+                    <li>Cross-border hosting complicates workplace remedies</li>
+                </ul>
+            </div>
+            <div class="slide-image-container">
+                <img src="assets/slide12.svg" alt="Futuristic AI concept" class="slide-image">
+            </div>
+        </div>
+
+        <!-- Slide 13 -->
+        <div class="slide" id="slide-13">
+            <div class="slide-content">
+                <h2>Call to Action</h2>
+                <p>Safer digital workplaces require:</p>
+                <ul>
+                    <li>Act-compliant policies & committees</li>
+                    <li>Faster employer/platform action</li>
+                    <li>Staff awareness & training</li>
+                </ul>
+            </div>
+            <div class="slide-image-container">
+                <img src="assets/slide13.svg" alt="Call to action concept" class="slide-image">
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <span class="slide-counter" id="slide-counter">1 / 13</span>
+            <button onclick="prevSlide()" aria-label="Previous Slide">Previous</button>
+            <button onclick="nextSlide()" aria-label="Next Slide">Next</button>
+            <button onclick="toggleFullscreen()" aria-label="Toggle Fullscreen" title="Enlarge to Fullscreen">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+                </svg>
+            </button>
+            <button onclick="downloadHTML()" aria-label="Download HTML">Download HTML</button>
+        </div>
+
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const counter = document.getElementById('slide-counter');
+
+        function updateCounter() {
+            counter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+        }
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+            currentSlide = index;
+            updateCounter();
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.getElementById('presentation-container').requestFullscreen().catch(err => {
+                    alert(`Error attempting to enable fullscreen mode: ${err.message} (${err.name})`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        function downloadHTML() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'TFGBV_Workplace_Presentation.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+
+        // Initialize
+        updateCounter();
+    </script>
+
+</body>
+
+</html>
